@@ -23,9 +23,9 @@
       "unix"
     ],
     "no-unused-vars": [
-      2,
+      "error",
       {
-        "args": "all"
+        "argsIgnorePattern": "res|req|next"
       }
     ],
     "prefer-arrow-callback": "off",
