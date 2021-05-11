@@ -9,17 +9,29 @@ const db = require('../models');
 module.exports = {
   // CREATE
   create: async (req, res, next) => {
-    const newMachine = await db.Machine.create(req.body);
-    res.json({ machine: newMachine });
+    try {
+      const newMachine = await db.Machine.create(req.body);
+      res.json({ machine: newMachine });
+    } catch (e) {
+      next(e);
+    }
   },
   // READ
   findById: async (req, res, next) => {
-    const machine = await db.Machine.findById(req.params.id);
-    res.json({ machine });
+    try {
+      const machine = await db.Machine.findById(req.params.id);
+      res.json({ machine });
+    } catch (e) {
+      next(e);
+    }
   },
   findAll: async (req, res, next) => {
-    const allMachines = await db.Machine.find({});
-    res.json({ machines: allMachines });
+    try {
+      const allMachines = await db.Machine.find({});
+      res.json({ machines: allMachines });
+    } catch (e) {
+      next(e);
+    }
   },
   // UPDATE
   update: async (req, res, next) => {
@@ -31,11 +43,25 @@ module.exports = {
       setDefaultsOnInsert: true,
     };
     const operation = { $set: req.body };
-    const updated = await db.Machine.findByIdAndUpdate(
-      id,
-      operation,
-      updateOptions
-    );
-    res.json({ machine: updated });
+    try {
+      const updated = await db.Machine.findByIdAndUpdate(
+        id,
+        operation,
+        updateOptions
+      );
+      res.json({ machine: updated });
+    } catch (e) {
+      next(e);
+    }
+  },
+  // DELETE
+  delete: async (req, res, next) => {
+    const id = req.params.id;
+    try {
+      const deleted = await db.Machine.deleteOne({ _id: id });
+      res.json({ machine: deleted });
+    } catch (e) {
+      next(e);
+    }
   },
 };

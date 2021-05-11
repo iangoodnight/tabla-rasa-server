@@ -5,15 +5,16 @@
 'use strict';
 
 const router = require('express').Router();
-const ah = require('express-async-handler');
 const { machineController } = require('../../controllers');
 
 // CREATE
-router.post('/', ah(machineController.create));
+router.post('/', machineController.create);
 // READ
-router.get('/:id', ah(machineController.findById));
-router.get('/', ah(machineController.findAll));
+router.get('/:id', machineController.findById);
+router.get('/', machineController.findAll);
 // UPDATE
-router.put('/:id', ah(machineController.update));
+router.put('/:id', machineController.update);
+// DELETE
+router.delete('/:id', machineController.delete);
 
 module.exports = router;

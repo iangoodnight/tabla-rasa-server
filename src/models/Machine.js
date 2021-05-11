@@ -24,7 +24,7 @@ const machineSchema = new Schema(
       required: true,
       lowercase: true,
       trim: true,
-      maxLength: 16,
+      maxLength: 32,
     },
     staffing: {
       type: Number,
@@ -50,6 +50,10 @@ const machineSchema = new Schema(
         },
       },
     ],
+    active: {
+      type: Boolean,
+      default: true,
+    },
     notes: {
       type: String,
     },
