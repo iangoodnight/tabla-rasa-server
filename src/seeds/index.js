@@ -8,15 +8,19 @@ const chalk = require('chalk');
 
 const seed = require('../utils/seed');
 
-const { Machine } = require('../models');
+const { Job, Machine } = require('../models');
 
-const machineSeed = require('./machines');
+const jobSeed = require('./job.seed');
+
+const machineSeed = require('./machine.seed');
 
 const { log } = console;
 
 require('dotenv').config();
 
 const connect = require('../services/db.service');
+
+const randomInt = require('../utils/randomInt.utils');
 
 let exit = 0;
 
@@ -34,7 +38,25 @@ connect()
     return seed(Machine, machineSeed);
   })
   .then((seededMachines) => {
-    seededMachines.map((machine) => log(chalk.blue('added ' + machine.name)));
+    const machineIds = seededMachines.map((machine) => {
+      log(chalk.blue('added ' + machine.name));
+      return machine._id;
+    });
+    log(chalk.green('success'));
+    return Promise.resolve(machineIds);
+  })
+  .then((ids) => {
+    const jobs = jobSeed.map((job) => {
+      job.machine = ids[randomInt(0, machineSeed.length - 1)];
+      return job;
+    });
+    log(
+      chalk.green('seeding ') + chalk.blue('job') + chalk.green(' collection')
+    );
+    return seed(Job, jobs);
+  })
+  .then((seededJobs) => {
+    log(chalk.blue('added ' + seededJobs.length + ' jobs'));
     log(chalk.green('success'));
     return Promise.resolve();
   })

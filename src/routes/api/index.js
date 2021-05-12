@@ -6,8 +6,10 @@
 
 const router = require('express').Router();
 
-const machineRoutes = require('./machine');
+const machineRoutes = require('./machine.routes');
+const jobRoutes = require('./job.routes');
 
+router.use('/job', jobRoutes);
 router.use('/machine', machineRoutes);
 
 module.exports = router;

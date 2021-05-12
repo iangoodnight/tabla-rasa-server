@@ -18,18 +18,9 @@ const schemaOptions = {
 
 const machineSchema = new Schema(
   {
-    name: {
-      type: String,
-      unique: true,
-      required: true,
-      lowercase: true,
-      trim: true,
-      maxLength: 32,
-    },
-    staffing: {
-      type: Number,
-      min: 1,
-      max: 10,
+    active: {
+      type: Boolean,
+      default: true,
     },
     capacity: [
       {
@@ -50,12 +41,21 @@ const machineSchema = new Schema(
         },
       },
     ],
-    active: {
-      type: Boolean,
-      default: true,
+    name: {
+      type: String,
+      unique: true,
+      required: true,
+      lowercase: true,
+      trim: true,
+      maxLength: 32,
     },
     notes: {
       type: String,
+    },
+    staffing: {
+      type: Number,
+      min: 1,
+      max: 10,
     },
   },
   schemaOptions
