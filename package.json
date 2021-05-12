@@ -31,15 +31,7 @@
     "nodemon": "^2.0.7",
     "prettier": "^2.2.1"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
   "lint-staged": {
-    "*.js": [
-      "eslint --cache --fix",
-      "jest --bail --passWithNoTests --findRelatedTests"
-    ]
+    "*.js": "eslint --cache --fix"
   }
 }
