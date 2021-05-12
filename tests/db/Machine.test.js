@@ -8,7 +8,7 @@ const { dbConnect, dbDisconnect } = require('../test-utils/dbHandler.utils');
 const { Machine } = require('../../src/models');
 
 const testMachine = {
-  name: 'bowflex-pro6',
+  name: 'bowflex',
   staffing: 1,
   capacity: [
     {
@@ -27,8 +27,7 @@ describe('Machine model test', () => {
   afterAll(async () => dbDisconnect());
 
   it('should create and save machine successfully', async () => {
-    const validMachine = new Machine(testMachine);
-    const savedMachine = await validMachine.save();
+    const savedMachine = await Machine.create(testMachine);
 
     expect(savedMachine._id).toBeDefined();
     expect(savedMachine.name).toBe(testMachine.name);

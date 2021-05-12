@@ -7,7 +7,7 @@
     "dev": "DEBUG=tabla-rasa:* nodemon ./src/bin/www",
     "prepare": "husky install",
     "seed": "node ./src/seeds/index.js",
-    "test": "jest"
+    "test": "jest --collectCoverage"
   },
   "dependencies": {
     "chalk": "^3.0.0",
