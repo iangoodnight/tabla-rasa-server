@@ -1,10 +1,10 @@
 {
-  "name": "tabla-rasa",
+  "name": "tabla-rasa-server",
   "version": "0.0.0",
   "private": true,
   "scripts": {
     "start": "node ./src/bin/www",
-    "dev": "DEBUG=tabla-rasa:* nodemon ./src/bin/www",
+    "dev": "DEBUG=tabla-rasa-server:* nodemon ./src/bin/www",
     "prepare": "husky install",
     "seed": "node ./src/seeds/index.js",
     "test": "jest --collectCoverage"
