@@ -33,6 +33,17 @@ module.exports = {
       next(e);
     }
   },
+  findByDateRange: async (req, res, next) => {
+    const start = req.query.start;
+    const end = req.query.end;
+    const query = { scheduled: { $gte: start, $lte: end } };
+    try {
+      const jobs = await db.Job.find(query);
+      res.json({ jobs });
+    } catch (e) {
+      next(e);
+    }
+  },
   // UPDATE
   update: async (req, res, next) => {
     const id = req.params.id;

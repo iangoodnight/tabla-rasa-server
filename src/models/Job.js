@@ -45,6 +45,8 @@ const jobSchema = new Schema(
   schemaOptions
 );
 
+jobSchema.index({ scheduled: 1, machine: 1, priority: 1 });
+
 const Job = model('Job', jobSchema);
 
 module.exports = Job;

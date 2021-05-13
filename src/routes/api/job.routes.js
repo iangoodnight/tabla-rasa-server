@@ -10,6 +10,7 @@ const { jobController } = require('../../controllers');
 // CREATE
 router.post('/', jobController.create);
 // READ
+router.get('/date', jobController.findByDateRange);
 router.get('/', jobController.findAll);
 router.get('/:id', jobController.findById);
 // UPDATE
