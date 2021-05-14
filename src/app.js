@@ -15,8 +15,9 @@ const app = express();
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-
+app.use(cookieParser(process.env.COOKIE_SECRET));
+// Passport
+require('./middleware/passport')(app);
 // Routing
 const routes = require('./routes');
 

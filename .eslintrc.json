@@ -25,7 +25,7 @@
     "no-unused-vars": [
       "error",
       {
-        "argsIgnorePattern": "res|req|next"
+        "vars": "all"
       }
     ],
     "prefer-arrow-callback": "off",

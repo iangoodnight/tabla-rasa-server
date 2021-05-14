@@ -36,7 +36,7 @@ server.on('listening', onListening);
  */
  
 require('../services/db.service')()
-  .then(() => debug(chalk.green('\nConnected to MongoDB!\n')))
+  .then((connection) => debug(chalk.green('\nConnected to MongoDB!\n')))
   .catch(error => warn(chalk.red('\nMongo connection error: ' + error.message)));
 
 /**

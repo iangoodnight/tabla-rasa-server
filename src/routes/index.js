@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const fs = require('fs');
 const path = require('path');
 const apiRoutes = require('./api');
+const isMonoRepo = require('../utils/isMonoRepo.utils');
 const { log } = console;
 const chalk = require('chalk');
 
@@ -10,16 +10,14 @@ const chalk = require('chalk');
 router.use('/api', apiRoutes);
 
 // test for monorepo
-try {
-  if (fs.existsSync(path.join(__dirname, '../../../client'))) {
-    log(chalk.green('Monorepo detected... serving client'));
-    // serve up static assets
-    router.use(express.static(path.join(__dirname, '../../../client/build')));
-    router.get('*', (req, res) => {
-      res.sendFile(path.join(__dirname, '../../../client/build/index.html'));
-    });
-  }
-} catch (e) {
+if (isMonoRepo()) {
+  log(chalk.green('Monorepo detected... serving client'));
+  // serve up static assets
+  router.use(express.static(path.join(__dirname, '../../../client/build')));
+  router.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../../../client/build/index.html'));
+  });
+} else {
   log(chalk.red('No client detected, loading API only'));
 }
 
