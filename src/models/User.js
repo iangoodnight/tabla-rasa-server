@@ -21,16 +21,40 @@ const schemaOptions = {
 
 const userSchema = new Schema(
   {
-    user: {
+    email: {
       type: String,
-      required: true,
+      trim: true,
+      lowercase: true,
       unique: true,
-      maxLength: 32,
+      // required: 'Email address is required',
+      validate: [
+        (email) => {
+          //eslint-disable-next-line
+          const re = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+          return re.test(email);
+        },
+        'Please use a valid email address',
+      ],
     },
     password: {
       type: String,
       required: true,
       select: false,
+    },
+    refreshToken: [
+      {
+        token: {
+          type: String,
+          default: '',
+          select: false,
+        },
+      },
+    ],
+    user: {
+      type: String,
+      required: true,
+      unique: true,
+      maxLength: 32,
     },
   },
   schemaOptions

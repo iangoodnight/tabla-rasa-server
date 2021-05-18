@@ -8,6 +8,8 @@ const session = require('express-session');
 const MongoStore = require('connect-mongo');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
+const JwtStrategy = require('passport-jwt').Strategy;
+const { ExtractJwt } = require('passport-jwt');
 const { User } = require('../models');
 
 // Export a function that takes an express app and applies middleware
@@ -55,6 +57,25 @@ module.exports = (app) => {
         return done(null, user);
       } catch (err) {
         return done(err);
+      }
+    })
+  );
+
+  const opts = {
+    jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+    secretOrKey: process.env.JWT_SECRET,
+  };
+
+  passport.use(
+    new JwtStrategy(opts, async (jwt_payload, done) => {
+      try {
+        const user = await User.findOne({ _id: jwt_payload._id }).select(
+          '+token'
+        );
+        if (user) return done(null, user);
+        return done(null, false);
+      } catch (err) {
+        return done(err, false);
       }
     })
   );

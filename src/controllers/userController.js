@@ -5,15 +5,32 @@
 'use strict';
 
 const db = require('../models');
+const {
+  COOKIE_OPTIONS,
+  getRefreshToken,
+  getToken,
+} = require('../utils/authenticate.utils');
 
 module.exports = {
   // CREATE
   create: async (req, res, next) => {
+    //    try {
+    //      const newUser = await db.User.create(req.body);
+    //      res.json({ user: newUser });
+    //    } catch (e) {
+    //      next(e);
+    //    }
     try {
-      const newUser = await db.User.create(req.body);
-      res.json({ user: newUser });
-    } catch (e) {
-      next(e);
+      const user = new db.User(req.body);
+      const token = getToken({ _id: user._id });
+      const refreshToken = getRefreshToken({ _id: user._id });
+      user.refreshToken.push({ token: refreshToken });
+      await user.save();
+      res.cookie('refreshToken', refreshToken, COOKIE_OPTIONS);
+      res.json({ success: true, token });
+    } catch (err) {
+      res.statusCode = 500;
+      next(err);
     }
   },
   // READ
