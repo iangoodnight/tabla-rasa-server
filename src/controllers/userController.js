@@ -9,7 +9,7 @@ const {
   COOKIE_OPTIONS,
   getRefreshToken,
   getToken,
-} = require('../utils/authenticate.utils');
+} = require('../utils/auth.utils');
 
 module.exports = {
   // CREATE

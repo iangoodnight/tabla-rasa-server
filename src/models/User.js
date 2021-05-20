@@ -41,7 +41,7 @@ const userSchema = new Schema(
       required: true,
       select: false,
     },
-    refreshToken: [
+    refresh: [
       {
         token: {
           type: String,

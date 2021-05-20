@@ -4,8 +4,6 @@
 
 'use strict';
 
-const session = require('express-session');
-const MongoStore = require('connect-mongo');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const JwtStrategy = require('passport-jwt').Strategy;
@@ -14,26 +12,6 @@ const { User } = require('../models');
 
 // Export a function that takes an express app and applies middleware
 module.exports = (app) => {
-  // setup session for persistent login
-  app.use(
-    session({
-      secret: process.env.COOKIE_SECRET,
-      resave: false,
-      saveUninitialized: false,
-      store: MongoStore.create({
-        mongoUrl:
-          process.env.NODE_ENV === 'production'
-            ? process.env.MONGO_DB_URI
-            : process.env.DEV_DB_URI,
-      }),
-      cookie: {
-        maxAge: 1 * 24 * 60 * 60 * 1000,
-      },
-      /* requires https */
-      // secure: true,
-    })
-  );
-
   passport.serializeUser((user, done) => {
     done(null, user._id);
   });
@@ -81,6 +59,4 @@ module.exports = (app) => {
   );
 
   app.use(passport.initialize());
-  // must come after initialize
-  app.use(passport.session());
 };
